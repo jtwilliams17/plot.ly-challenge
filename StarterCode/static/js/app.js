@@ -14,10 +14,10 @@ d3.json("../data/samples.json").then((importData) => {
 
   function createPlots(index) {
     //Create variables for horizontal bar chart & gauge chart
-    var otuIds = data.samples[index].otu_ids;
-    console.log(otuIds);
-    var sampleValues = data.samples[index].sample_values;
-    var otuLabels = data.samples[index].otu_labels;
+    var otu_ids = data.samples[index].otu_ids;
+    console.log(otu_ids);
+    var sample_values = data.samples[index].sample_values;
+    var otu_labels = data.samples[index].otu_labels;
 
     var washFrequency = data.metadata[+index].wfreq;
     console.log(washFrequency);
@@ -32,11 +32,11 @@ d3.json("../data/samples.json").then((importData) => {
       demoData.append("p").text(`${Keys[i]}: ${Values[i]}`);
     }
 
-    var OTUs = otuIds.slice(0, 10).reverse();
-    var Frequencies = sampleValues.slice(0, 10).reverse();
+    var OTUs = otu_ids.slice(0, 10).reverse();
+    var Frequencies = sample_values.slice(0, 10).reverse();
     var OTUhovertext = data.samples[0].otu_labels.slice(0, 10).reverse();
-    var OTULabels = OTUs.map((otu) => "OTU " + otu);
-    var revLabels = OTULabels.reverse();
+    var OTU_labels = OTUs.map((otu) => "OTU " + otu);
+    var revLabels = OTU_labels.reverse();
 
     //   Create bar chart
     var trace1 = {
@@ -63,14 +63,14 @@ d3.json("../data/samples.json").then((importData) => {
 
     // Create bubble chart
     trace2 = {
-      x: otuIds,
-      y: sampleValues,
-      text: otuLabels,
+      x: otu_ids,
+      y: sample_values,
+      text: otu_labels,
       mode: "markers",
       marker: {
-        color: otuIds,
+        color: otu_ids,
         opacity: [1, 0.8, 0.6, 0.4],
-        size: sampleValues,
+        size: sample_values,
       },
     };
 
@@ -94,20 +94,20 @@ d3.json("../data/samples.json").then((importData) => {
         title: { text: "Belly Button Washing Frequency" },
         gauge: {
           axis: { range: [0, 9], tickwidth: 0.5, tickcolor: "black" },
-          bar: { color: "#669999" },
+          bar: { color: "#850000" },
           bgcolor: "white",
           borderwidth: 2,
           bordercolor: "transparent",
           steps: [
-            { range: [0, 1], color: "#fff" },
-            { range: [1, 2], color: "#e6fff5" },
-            { range: [2, 3], color: "ccffeb" },
-            { range: [3, 4], color: "b3ffe0" },
-            { range: [4, 5], color: "#99ffd6" },
-            { range: [5, 6], color: "#80ffcc" },
-            { range: [6, 7], color: "#66ffc2" },
-            { range: [7, 8], color: "#4dffb8" },
-            { range: [8, 9], color: "#33ffad" },
+            { range: [0, 1], color: "#F8F3EC" },
+            { range: [1, 2], color: "#F4F1E4" },
+            { range: [2, 3], color: "#E9E6C9" },
+            { range: [3, 4], color: "#E5E8B0" },
+            { range: [4, 5], color: "#D5E599" },
+            { range: [5, 6], color: "#B7CD8F" },
+            { range: [6, 7], color: "#8AC086" },
+            { range: [7, 8], color: "#89BC8D" },
+            { range: [8, 9], color: "#84B589" },
           ],
         },
       },
@@ -126,16 +126,16 @@ d3.json("../data/samples.json").then((importData) => {
 
   d3.selectAll("#selDataset").on("change", refreshData);
 
+  // Data refresh function
   function refreshData() {
-    var dropdownMenu = d3.select("#selDataset");
-    // Assign the value of the dropdown menu option to a variable
-    var personsID = dropdownMenu.property("value");
-    console.log(personsID);
-    // Initialize an empty array for the person's data
+    var dropDown = d3.select("#selDataset");
+
+    var IDs = dropDown.property("value");
+    console.log(IDs);
     console.log(data);
 
     for (var i = 0; i < data.names.length; i++) {
-      if (personsID === data.names[i]) {
+      if (IDs === data.names[i]) {
         createPlots(i);
         return;
       }
